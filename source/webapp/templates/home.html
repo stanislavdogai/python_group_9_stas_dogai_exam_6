@@ -1,5 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>HHH</h1>
+<div class="container">
+    <h1>Гостевая Книга</h1>
+    {% for book in books %}
+        <div class="card mt-3" style="width: 40rem;">
+            <div class="card-body">
+                <div class="d-flex bd-highlight mb-3">
+                    <h5 class="card-title">{{ book.name_author }} ({{ book.email }})</h5>
+                  <div class="p-2 bd-highlight"><a href=""><i class="fas fa-trash"></i></a></div>
+                  <div class="p-2 bd-highlight"><a href="{% url 'book_update' book.pk%}"><i class="fas fa-edit"></i></a></div>
+                </div>
+{#                <h5 class="card-title">{{ book.name_author }} ({{ book.email }})</h5>#}
+            <p class="card-text">{{ book.text }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
 {% endblock %}
+ <a href=""><i class="fas fa-trash"></i></a>
+<a href=""><i class="fas fa-edit"></i></a>
