@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-<form action="{% url "book_delete" book.pk %}" method="POST">
+<div class="container">
+    <form action="{% url "book_delete" book.pk %}" method="POST">
     {% csrf_token %}
-        <h2>Вы действительно хотите удалить книгу {{ book.name_author }}</h2>
-        <p>Введите название данной статьи</p>
-        {% include "partial/form.html" with button_text="'Да я хочу удалить'" %}
+    <h2>Вы действительно хотите удалить книгу {{ book.name_author }}</h2>
+    <p>Введите название данной статьи</p>
+    {% include "partial/form.html" with button_text="Да" %}
     </form>
-    <a href="{% url "home_page"%}">Нет</a>
+<a class="btn btn-primary mt-3" href="{% url 'home_page' %}">Нет</a>
+</div>
+
+
 
 {% endblock %}

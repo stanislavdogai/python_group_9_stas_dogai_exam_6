@@ -39,7 +39,7 @@ def create_book_view(request):
                                                  text=text,
                                                  created_at=created_at)
             return redirect("home_page")
-        return render(request, 'book_create.html', {"form": form})
+        return render(request, 'home_page.html', {"form": form})
 
 
 def book_update(request, pk):
