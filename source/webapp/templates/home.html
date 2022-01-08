@@ -16,7 +16,9 @@
         </div>
     {% endfor %}
 </div>
-
+<div>
+    <form method="POST" action="{% url 'create_page' %}">
+         {% include 'partial/form.html' with button_text='Create' %}
+    </form>
+</div>
 {% endblock %}
- <a href=""><i class="fas fa-trash"></i></a>
-<a href=""><i class="fas fa-edit"></i></a>

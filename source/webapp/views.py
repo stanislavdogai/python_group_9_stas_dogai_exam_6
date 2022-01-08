@@ -5,8 +5,23 @@ from webapp.models import FaceBook
 
 
 def home_page(request):
-    books = FaceBook.objects.order_by("created_at").filter(status='active')
-    return render(request, 'home.html', {'books': books})
+    if request.method == 'GET':
+        books = FaceBook.objects.order_by("created_at").filter(status='active')
+        form = BookForm()
+        return render(request, 'home.html', {'books': books, 'form': form})
+    else:
+        form = BookForm(data=request.POST)
+        if form.is_valid():
+            name_author = form.cleaned_data.get('name_author')
+            email = form.cleaned_data.get('email')
+            text = form.cleaned_data.get('text')
+            created_at = form.cleaned_data.get('publish_date')
+            new_book = FaceBook.objects.create(name_author=name_author,
+                                               email=email,
+                                               text=text,
+                                               created_at=created_at)
+            return redirect('home_page')
+        return render(request, 'home.html', {'form' : form})
 
 def create_book_view(request):
     if request.method == 'GET':
@@ -18,12 +33,10 @@ def create_book_view(request):
             name_author = form.cleaned_data.get('name_author')
             email = form.cleaned_data.get('email')
             text = form.cleaned_data.get('text')
-            status = form.cleaned_data.get('status')
             created_at = form.cleaned_data.get('publish_date')
             new_book = FaceBook.objects.create(name_author=name_author,
                                                  email=email,
                                                  text=text,
-                                                 status=status,
                                                  created_at=created_at)
             return redirect("home_page")
         return render(request, 'book_create.html', {"form": form})

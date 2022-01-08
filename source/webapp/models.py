@@ -11,7 +11,7 @@ class FaceBook(models.Model):
     status = models.CharField(max_length=15, default='active', choices=STATUS_CHOIСES, verbose_name="Статус")
 
     def __str__(self):
-        return f"{self.pk}.{self.name_author}"
+        return f"{self.pk}.{self.name_author} data: {self.created_at}"
 
     class Meta:
         db_table = 'FaceBook'
