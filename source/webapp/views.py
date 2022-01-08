@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
-from webapp.forms import BookForm
+from webapp.forms import BookForm, BookDeleteForm
 from webapp.models import FaceBook
 
 
 def home_page(request):
-    books = FaceBook.objects.order_by("created_at")
+    books = FaceBook.objects.order_by("created_at").filter(status='active')
     return render(request, 'home.html', {'books': books})
 
 def create_book_view(request):
@@ -48,17 +48,17 @@ def book_update(request, pk):
             return redirect("home_page")
         return render(request, 'book_update.html', {"book": book, "form": form})
 
-# def book_delete(request, pk):
-#     article = get_object_or_404(Article, pk=pk)
-#     if request.method == 'GET':
-#         form = ArticleDeleteForm()
-#         return render(request, "article_delete.html", {"article": article, "form": form})
-#     else:
-#         form = ArticleDeleteForm(data=request.POST)
-#         if form.is_valid():
-#             if form.cleaned_data.get("title") != article.title:
-#                 form.errors['title'] = ["Название статьи не соответствует"]
-#                 return render(request, "article_delete.html", {"article": article, "form": form})
-#             article.delete()
-#             return redirect("index")
-#         return render(request, "article_delete.html", {"article": article, "form": form})
+def book_delete(request, pk):
+    book = get_object_or_404(FaceBook, pk=pk)
+    if request.method == 'GET':
+        form = BookDeleteForm()
+        return render(request, "book_delete.html", {"book": book, "form": form})
+    else:
+        form = BookDeleteForm(data=request.POST)
+        if form.is_valid():
+            if form.cleaned_data.get("name_author") != book.name_author:
+                form.errors['name_author'] = ["Автор книги не соответствует"]
+                return render(request, "book_delete.html", {"book": book, "form": form})
+            book.delete()
+            return redirect("home_page")
+        return render(request, "book_delete.html", {"book": book, "form": form})

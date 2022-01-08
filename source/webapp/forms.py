@@ -8,3 +8,10 @@ class BookForm(forms.Form):
     text = forms.CharField(max_length=2000, required=True, label='Текст записи')
     # created_at = forms.DateTimeField(widget=widgets.DateTimeInput(attrs={"type": "date"}), label="Дата создания")
     # status = forms.ChoiceField(required=True, choices=STATUS_CHOIСES, label="Статус")
+
+class BookDeleteForm(forms.Form):
+    name_author = forms.CharField(max_length=100,
+                            required=True,
+                            label="Имя автора",
+                            error_messages={"required": "Поле обязательно для заполнения"},
+                            )
